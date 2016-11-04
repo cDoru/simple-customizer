@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { updateMaterialsLibrary } from './actions';
 
 import Scene from '../../components/Scene';
+import ColorSelect from '../../components/ColorSelect';
 
 class Landing extends React.Component {
   constructor(props) {
@@ -29,6 +30,14 @@ class Landing extends React.Component {
     });
   }
 
+  changeDeckColor(color) {
+    this.props.materials.deck.materials[1].color = new THREE.Color(parseInt(color));
+  }
+
+  changeDeckTexture(texture) {
+
+  }
+
   render() {
     var style = {width: this.props.width, height: this.props.height};
     return (
@@ -43,6 +52,10 @@ class Landing extends React.Component {
 
         <Scene 
           updateMaterialsLibrary={this.props.updateMaterialsLibrary}
+        />
+        <ColorSelect
+          changeDeckColor={(c) => this.changeDeckColor(c)}
+          changeDeckTexture={(t) => this.changeDeckTexture(t)}
         />
       </ReactF1>
     );

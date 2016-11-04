@@ -3,5 +3,13 @@
     "deck": "models/skateboard.json",
     "wheels": "models/skateboard-wheels.json",
     "screws": "models/anchor-screws.json"
+  },
+  "customization": {
+    "deck": {
+      "colors": {
+        "red": "0x771f1f"
+      },
+      "textures": {}
+    }
   }
 }

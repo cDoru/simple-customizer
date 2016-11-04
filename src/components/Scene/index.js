@@ -9,6 +9,7 @@ const path = require('path');
 const createLoop = require('raf-loop');
 const createScene = require('scene-template');
 const loader = new THREE.JSONLoader();
+const diff = require('deep-diff');
 
 const CLEAR_COLOR = 0xffffff;
 const ASSETS_PATH = '/assets/';
@@ -26,6 +27,7 @@ class Scene extends React.Component {
   componentDidMount() {
     let domElement = ReactDOM.findDOMNode(this.refs['main-scene']);
     this.initScene(domElement);
+    window.addEventListener('resize', () => this.resizeCanvas());
   }
 
   componentWillReceiveProps(nextProps) {
@@ -33,19 +35,27 @@ class Scene extends React.Component {
   }
 
   componentWillUnmount() {
-    // component is about to be removed from DOM
-    // clean up any event listeners ect. here
+    window.removeEventListener('resize', this.resizeCanvas);
+  }
+
+  resizeCanvas() {
+    let el = ReactDOM.findDOMNode(this.refs['main-scene']);
+    this.renderer.setSize(el.clientWidth, window.innerWidth * 0.56);
   }
 
   initScene(el) {
     const ambient = new THREE.AmbientLight(0xffffff, 1.5);
     const light = new THREE.SpotLight(0xffffff);
+    const width = window.innerWidth;
+    const height = window.innerWidth * 0.56;
     light.intensity = 1;
     ambient.intensity = 1;
     const opts = {
       renderer: {
         antialias: true,
       },
+      width,
+      height,
       controls: {
         theta: 0 * Math.PI / 180,
         phi: -55 * Math.PI / 180,
@@ -57,6 +67,7 @@ class Scene extends React.Component {
       },
       domElement: el
     };
+
 
     let { 
       renderer,
@@ -85,6 +96,11 @@ class Scene extends React.Component {
     
     this.initMainObject(scene, (obj) => {
       this.scene.add(obj);
+      this.props.updateMaterialsLibrary({
+        deck: obj.children.filter((d) => d.name === 'DECK')[0].material,
+        wheels: obj.children.filter((d) => d.name === 'WHEELS')[0].material,
+        screws: obj.children.filter((d) => d.name === 'SCREWS')[0].material
+      })
       createLoop((dt) => {
         updateControls();
         renderer.render(this.scene, this.camera);
@@ -94,11 +110,6 @@ class Scene extends React.Component {
 
   initMainObject(scene, cb) {
     let mainObj = new THREE.Object3D();
-    // this.props.updateMaterialsLibrary({
-    //   deck: mainObj.children.filter(() => name === 'DECK').materials,
-    //   wheels: mainObj.children.filter(() => name === 'WHEELS').materials,
-    //   screws: mainObj.children.filter(() => name === 'SCREWS').materials
-    // })
     loadDeck(mainObj, () => {
       loadWheels(mainObj, () => {
         loadScrews(mainObj, () => cb(mainObj))

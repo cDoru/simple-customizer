@@ -7,6 +7,9 @@ import {setReady, setProgress} from './actions';
 import TransitionGroup from 'react-transition-group-plus';
 import detect from '../../util/detect';
 
+global.MOBILE_WIDTH = 500;
+global.THREE = require('three');
+
 class App extends React.Component {
   constructor(props) {
     super(props);

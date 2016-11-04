@@ -26,6 +26,7 @@
   "repository": "https://github.com/nascherman/simple-customizer",
   "dependencies": {
     "babel-polyfill": "^6.7.4",
+    "deep-diff": "^0.3.4",
     "dom-ready": "^1.0.6",
     "domready": "^1.0.8",
     "glslify": "^6.0.1",
