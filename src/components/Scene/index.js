@@ -3,7 +3,6 @@ import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 import { skateboard } from '../../config/objects.json';
 
-const THREE = require('three');
 // const glslify = require('glslify');
 const path = require('path');
 const createLoop = require('raf-loop');
@@ -119,10 +118,24 @@ class Scene extends React.Component {
     function loadDeck(obj, cb) {
       loader.load(ASSETS_PATH + skateboard.deck, (geo, mat) => {        
         let material = new THREE.MultiMaterial(mat);
-        let newObj = new THREE.Mesh(geo, material);
-        newObj.name = 'DECK';
-        obj.add(newObj);
-        cb ? cb() : null
+        // add sandpaper texture to deck
+        let map = new THREE.TextureLoader().load(ASSETS_PATH + 'models/textures/sandpaper.png', () =>{
+          map.anisotropy = 4;
+          map.repeat.set(20, 20);
+          map.wrapS = map.wrapT = THREE.RepeatWrapping;
+          
+          Object.assign(material.materials[1], {
+            bumpMap: map,
+            bumpScale: 0.1
+          });
+
+          let newObj = new THREE.Mesh(geo, material);
+          newObj.name = 'DECK';
+        
+          obj.add(newObj);
+          cb ? cb() : null  
+        });
+        
       });
     }
     function loadWheels(obj, cb) {

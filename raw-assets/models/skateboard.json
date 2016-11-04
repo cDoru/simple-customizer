@@ -38,7 +38,7 @@
         "blending":"NormalBlending",
         "vertexColors":false,
         "depthTest":true,
-        "specularCoef":50,
+        "specularCoef": 5,
         "colorEmissive":[0,0,0],
         "DbgName":"Top",
         "visible":true,

@@ -33,8 +33,28 @@ class Landing extends React.Component {
   changeDeckColor(color) {
     this.props.materials.deck.materials[1].color = new THREE.Color(parseInt(color));
   }
-
+  //TODO
   changeDeckTexture(texture) {
+
+  }
+
+  changeCasterColor(color) {
+    this.props.materials.wheels.materials[2].color = new THREE.Color(parseInt(color));
+  }
+
+  changeScrewColor(color) {
+    this.props.materials.screws.materials[0].color = new THREE.Color(parseInt(color));
+  }
+
+  changeAssemblyColor(color) {
+    this.props.materials.wheels.materials[0].color = new THREE.Color(parseInt(color));
+  }
+  //TODO
+  changeAssemblyTexture(texture) {
+
+  }
+  //TODO
+  changeWood(wood) {
 
   }
 
@@ -56,6 +76,11 @@ class Landing extends React.Component {
         <ColorSelect
           changeDeckColor={(c) => this.changeDeckColor(c)}
           changeDeckTexture={(t) => this.changeDeckTexture(t)}
+          changeCasterColor={(c) => this.changeCasterColor(c)}
+          changeScrewColor={(c) => this.changeScrewColor(c)}
+          changeAssemblyColor={(c) => this.changeAssemblyColor(c)}
+          changeAssemblyTexture={(t) => this.changeAssemblyTexture(t)}
+          changeWood={(w) => this.changeWood(w)}
         />
       </ReactF1>
     );

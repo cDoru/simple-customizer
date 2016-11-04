@@ -10,7 +10,7 @@ process.env.ASSET_PATH = config.ASSET_PATH;
 
 var b = budo(config.entry, {
   serve: config.bundle,
-  open: true,
+  open: false,
   dir: config.output,
   stream: process.stdout
 });
