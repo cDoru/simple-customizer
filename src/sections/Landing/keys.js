@@ -1,0 +1,3 @@
+export default {
+  UPDATE_MATERIALS: 'UPDATE_MATERIALS'
+}

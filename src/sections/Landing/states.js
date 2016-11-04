@@ -4,7 +4,7 @@ export default function(props) {
     out: {
       container: {
         style: {
-          opacity: 0
+          opacity: 1
         }
       }
     },

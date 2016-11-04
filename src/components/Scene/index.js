@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { skateboard } from '../../config/objects.json';
 
 const THREE = require('three');
-const glslify = require('glslify');
+// const glslify = require('glslify');
 const path = require('path');
 const createLoop = require('raf-loop');
 const createScene = require('scene-template');
@@ -55,11 +55,7 @@ class Scene extends React.Component {
       camera: {
         far: 100000
       },
-      domElement: el, 
-      object: [
-        // ambient,
-        // light
-      ]
+      domElement: el
     };
 
     let { 
@@ -78,7 +74,6 @@ class Scene extends React.Component {
     renderer.shadowMap.enabled = true;
     renderer.shadowMapSoft = true;
     renderer.setClearColor(CLEAR_COLOR, 1);
-    
     
     Object.assign(this, { 
       renderer, 
@@ -99,6 +94,11 @@ class Scene extends React.Component {
 
   initMainObject(scene, cb) {
     let mainObj = new THREE.Object3D();
+    // this.props.updateMaterialsLibrary({
+    //   deck: mainObj.children.filter(() => name === 'DECK').materials,
+    //   wheels: mainObj.children.filter(() => name === 'WHEELS').materials,
+    //   screws: mainObj.children.filter(() => name === 'SCREWS').materials
+    // })
     loadDeck(mainObj, () => {
       loadWheels(mainObj, () => {
         loadScrews(mainObj, () => cb(mainObj))
@@ -106,10 +106,10 @@ class Scene extends React.Component {
     });
 
     function loadDeck(obj, cb) {
-      loader.load(ASSETS_PATH + skateboard.deck, (geo, mat) => {
-        // mat[0].map = ASSETS_PATH + 'textures/tex_03.png';
+      loader.load(ASSETS_PATH + skateboard.deck, (geo, mat) => {        
         let material = new THREE.MultiMaterial(mat);
         let newObj = new THREE.Mesh(geo, material);
+        newObj.name = 'DECK';
         obj.add(newObj);
         cb ? cb() : null
       });
@@ -118,6 +118,7 @@ class Scene extends React.Component {
       loader.load(ASSETS_PATH + skateboard.wheels, (geo, mat) => {
         let material = new THREE.MultiMaterial(mat);
         let newObj = new THREE.Mesh(geo, material);
+        newObj.name = 'WHEELS';
         obj.add(newObj);
         cb ? cb() : null
       });
@@ -126,26 +127,22 @@ class Scene extends React.Component {
       loader.load(ASSETS_PATH + skateboard.screws, (geo, mat) => {
         let material = new THREE.MultiMaterial(mat);
         let newObj = new THREE.Mesh(geo, material);
+        newObj.name = 'SCREWS';
         obj.add(newObj);
         cb ? cb() : null
       });
     }
   } 
 
-  
-
   render() {
     const style = Object.assign({}, {}, this.props.style);
-    const className = '';
-
+    const className = 'scene-container';
     return (
       <div
         className={`${className} ${this.props.className}`}
         style={style}
         ref='main-scene'
-      >
-        
-      </div>
+      />
     )
   }
 }
@@ -153,7 +150,6 @@ class Scene extends React.Component {
 Scene.propTypes = {
   style: PropTypes.object,
   className: PropTypes.string
-
 };
 
 Scene.defaultProps = {
