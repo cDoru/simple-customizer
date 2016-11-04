@@ -1,0 +1,22 @@
+{
+  "defaults": {
+    "entry": "./src/index.js",
+    "vendor": false,
+    "bundle": "bundle.js",
+    "static": "./static/",
+    "raw": "./raw-assets/",
+    "style": "./src/style/main.scss",
+    "ASSET_PATH": "./assets/",
+    "templateBlacklist": [],
+    "htpasswd": false
+  },
+  "development": {
+    "output": "./build/"
+  },
+  "production": {
+    "output": "./release/",
+    "minify": true,
+    "removeLogs": true
+  }
+}
+
