@@ -2,7 +2,6 @@
 import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 import { skateboard, viewPoints, transitionViews } from '../../config/objects.json';
-import ArcSolver from 'threejs-arc-solver';
 
 // const glslify = require('glslify');
 const path = require('path');
@@ -67,7 +66,7 @@ class Scene extends React.Component {
       endPoint[0], endPoint[1], endPoint[2]
     );
     let centrePoint = midPoint(initialPoint, endPoint);
-    //let arc = new ArcSolver(initialPoint, centrePoint, endPoint);
+    
     let curve = new THREE.QuadraticBezierCurve3();
     curve.v0 = initialPoint;
     curve.v1 = centrePoint;
@@ -109,7 +108,8 @@ class Scene extends React.Component {
         theta: 0 * Math.PI / 180,
         phi: -55 * Math.PI / 180,
         distance: 6,
-        type: 'orbit'
+        type: 'orbit',
+        element: el
       },
       camera: {
         far: 100000
