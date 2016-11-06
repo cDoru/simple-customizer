@@ -1,6 +1,7 @@
 'use strict';
 import React, {PropTypes} from 'react';
 import { customization } from '../../config/objects.json';
+
 const deck = customization.deck;
 
 class ColorSelect extends React.Component {
@@ -37,7 +38,8 @@ class ColorSelect extends React.Component {
       >
         <div 
           className='color-select' 
-          onClick={() => this.props.changeDeckColor(deck.colors.red)} 
+          onClick={() => this.props.changeDeckColor(deck.colors.red)}
+          onTouchStart={() => this.props.changeDeckColor(deck.colors.red)}  
         />
       </div>
     )

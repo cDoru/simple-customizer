@@ -11,3 +11,12 @@ export const materials = function(state = a, action) {
   }
 };
 
+export const angle = function(state = 'right', action) {
+  switch (action.type) {
+    case keys.UPDATE_ANGLE:
+      return action.angle
+    default:
+      return state
+  }
+}
+

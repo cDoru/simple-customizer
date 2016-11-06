@@ -5,10 +5,11 @@ import states from './states';
 import transitions from './transitions';
 import { connect } from 'react-redux';
 
-import { updateMaterialsLibrary } from './actions';
+import { updateMaterialsLibrary, updateAngle } from './actions';
 
 import Scene from '../../components/Scene';
 import ColorSelect from '../../components/ColorSelect';
+import PartViewer from '../../components/PartViewer';
 
 class Landing extends React.Component {
   constructor(props) {
@@ -69,9 +70,13 @@ class Landing extends React.Component {
         id="Landing"
         data-f1="container"
       >
-
         <Scene 
           updateMaterialsLibrary={this.props.updateMaterialsLibrary}
+          angle={this.props.angle}
+        />
+        <PartViewer
+          updateAngle={this.props.updateAngle}
+          angle={this.props.angle}
         />
         <ColorSelect
           changeDeckColor={(c) => this.changeDeckColor(c)}
@@ -89,7 +94,8 @@ class Landing extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    materials: state.materials
+    materials: state.materials,
+    angle: state.angle
   }
 };
 
@@ -97,6 +103,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     updateMaterialsLibrary: function(val) {
       dispatch(updateMaterialsLibrary(val));
+    },
+    updateAngle: function(val) {
+      dispatch(updateAngle(val));
     }
   };
 };

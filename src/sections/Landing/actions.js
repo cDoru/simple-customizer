@@ -7,3 +7,10 @@ export const updateMaterialsLibrary = function(materials) {
     materials
   }
 };
+
+export const updateAngle = function(angle) {
+  return {
+    type: keys.UPDATE_ANGLE,
+    angle
+  }
+}
