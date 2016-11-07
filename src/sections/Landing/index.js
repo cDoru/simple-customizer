@@ -11,6 +11,8 @@ import Scene from '../../components/Scene';
 import ColorSelect from '../../components/ColorSelect';
 import PartViewer from '../../components/PartViewer';
 
+const ASSETS_PATH = '/assets/';
+
 class Landing extends React.Component {
   constructor(props) {
     super(props);
@@ -32,23 +34,41 @@ class Landing extends React.Component {
   }
 
   changeDeckColor(color) {
-    this.props.materials.deck.materials[1].color = new THREE.Color(parseInt(color));
+    this.props.materials.deck.materials[1].color = new THREE.Color(parseInt(color.color));
+    this.props.materials.deck.materials[1].map = undefined;
+    this.props.materials.deck.materials[1].needsUpdate = true;
   }
   //TODO
   changeDeckTexture(texture) {
+    let map = new THREE.TextureLoader().load(ASSETS_PATH + 'textures/' + texture.path, () => {
+      map.anisotropy = 1;
+      // map.repeat.set(3, 5);
+      
+      map.wrapS = map.wrapT = THREE.RepeatWrapping
 
+      this.props.materials.deck.materials[1] = new THREE.MeshPhongMaterial(Object.assign(
+          this.props.materials.deck.materials[1],
+          {
+            map,
+            bumpScale: 0.1,
+            color: undefined
+          }
+        )
+      );
+      this.props.materials.deck.materials[1].needsUpdate = true;
+    });
   }
 
   changeCasterColor(color) {
-    this.props.materials.wheels.materials[2].color = new THREE.Color(parseInt(color));
+    this.props.materials.wheels.materials[2].color = new THREE.Color(parseInt(color.color));
   }
 
   changeScrewColor(color) {
-    this.props.materials.screws.materials[0].color = new THREE.Color(parseInt(color));
+    this.props.materials.screws.materials[0].color = new THREE.Color(parseInt(color.color));
   }
 
   changeAssemblyColor(color) {
-    this.props.materials.wheels.materials[0].color = new THREE.Color(parseInt(color));
+    this.props.materials.wheels.materials[0].color = new THREE.Color(parseInt(color.color));
   }
   //TODO
   changeAssemblyTexture(texture) {
@@ -77,8 +97,6 @@ class Landing extends React.Component {
         <PartViewer
           updateAngle={this.props.updateAngle}
           angle={this.props.angle}
-        />
-        <ColorSelect
           changeDeckColor={(c) => this.changeDeckColor(c)}
           changeDeckTexture={(t) => this.changeDeckTexture(t)}
           changeCasterColor={(c) => this.changeCasterColor(c)}

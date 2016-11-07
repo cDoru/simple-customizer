@@ -36,11 +36,40 @@ class ColorSelect extends React.Component {
         className={`${className} ${this.props.className}`}
         style={style}
       >
-        <div 
-          className='color-select' 
-          onClick={() => this.props.changeDeckColor(deck.colors.red)}
-          onTouchStart={() => this.props.changeDeckColor(deck.colors.red)}  
-        />
+        {
+          deck.colors.map((color, i) => {
+            return (
+              <div 
+                key={i}
+                className='select-item color-select'
+                style={{
+                  backgroundColor: '#' + color.color.split('0x')[1]
+                }} 
+                onClick={() => this.props.changeDeckColor(color)}
+                onTouchStart={() => this.props.changeDeckColor(color)}  
+              />
+            )
+          })
+        }
+        {
+          deck.textures.map((tex, i) => {
+            return (
+              <div
+                key={i}
+                className='select-item texture-select'
+                onClick={() => this.props.changeDeckTexture(tex)}
+                onTouchStart={() => this.props.changeDeckTexture(tex)}  
+              >
+                <div 
+                  className='texture-select-image' 
+                  style={{
+                    backgroundImage: 'url(/assets/textures/' + tex.path + ')',
+                  }}
+                />
+              </div>
+            )
+          })
+        }
       </div>
     )
   }
@@ -48,8 +77,8 @@ class ColorSelect extends React.Component {
 
 ColorSelect.propTypes = {
   style: PropTypes.object,
-  className: PropTypes.string
-
+  className: PropTypes.string,
+  angle: PropTypes.string
 };
 
 ColorSelect.defaultProps = {

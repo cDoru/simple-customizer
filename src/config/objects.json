@@ -6,10 +6,78 @@
   },
   "customization": {
     "deck": {
-      "colors": {
-        "red": "0x771f1f"
-      },
-      "textures": {}
+      "colors": [
+        {
+          "color": "0x771f1f",
+          "name": "red"
+        },
+        {
+          "color": "0x5F9F9F",
+          "name": "cadet blue"
+        },
+        {
+          "color": "0x2F4F4F",
+          "name": "slate grey"
+        },
+        {
+          "color": "0x551A8B",
+          "name": "royal purple"
+        },
+        {
+          "color": "0x32cd32",
+          "name": "lime green"
+        },
+        {
+          "color": "0xff6600",
+          "name": "boosted orange"
+        },
+        {
+          "color": "0x000000",
+          "name": "jet black"
+        },
+        {
+          "color": "0xf6f7f4",
+          "name": "arctic white"
+        }
+      ],
+      "textures": [
+        {
+          "path": "crime-tex.png",
+          "name": "crime"
+        },
+        {
+          "path": "girl1-tex.png",
+          "name": "girl one"
+        },
+        {
+          "path": "girl2-tex.png",
+          "name": "girl two"
+        },
+        {
+          "path": "shaman1-tex.png",
+          "name": "shaman one"
+        },
+        {
+          "path": "shaman2-tex.png",
+          "name": "shaman two"
+        },
+        {
+          "path": "shaman3-tex.png",
+          "name": "shaman three"
+        },
+        {
+          "path": "santa-cruz1-tex.png",
+          "name": "santa cruz one"
+        },
+        {
+          "path": "santa-cruz2-tex.png",
+          "name": "santa cruz two"
+        },
+        {
+          "path": "santa-cruz3-tex.png",
+          "name": "santa cruz three"
+        }
+      ]
     }
   },
   "viewPoints": {
