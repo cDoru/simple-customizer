@@ -7,24 +7,6 @@ class PartViewer extends React.Component {
     super(props);
   }
 
-  componentWillMount() {
-    // component has not been rendered to DOM yet
-    // process any data here if needed
-  }
-
-  componentDidMount() {
-    // component has been rendered to DOM
-  }
-
-  componentWillReceiveProps(nextProps) {
-    // component has already rendered but will re-render when receives new props
-  }
-
-  componentWillUnmount() {
-    // component is about to be removed from DOM
-    // clean up any event listeners ect. here
-  }
-
   onClickSelector(angle) {
     const { updateAngle } = this.props;
     switch(angle) {
@@ -36,6 +18,9 @@ class PartViewer extends React.Component {
         break;
       case 'wood':
         updateAngle('wood');
+        break;
+      case 'component':
+        updateAngle('component');
         break;
       default:
         return;
@@ -52,27 +37,32 @@ class PartViewer extends React.Component {
         style={style}
       >
         <div 
-          className='deck-button' 
+          className='view-button deck-button' 
           onClick={() => this.onClickSelector('deck')}
           onTouchStart={() => this.onClickSelector('deck')}
         />
         <div 
-          className='wheels-button' 
+          className='view-button wheels-button' 
           onClick={() => this.onClickSelector('wheels')}
           onTouchStart={() => this.onClickSelector('wheels')}
         />
         <div 
-          className='wood-button' 
+          className='view-button wood-button' 
           onClick={() => this.onClickSelector('wood')}
           onTouchStart={() => this.onClickSelector('wood')}
         />
-        <ColorSelect 
+        <div 
+          className='view-button component-button' 
+          onClick={() => this.onClickSelector('component')}
+          onTouchStart={() => this.onClickSelector('component')}
+        />
+        <ColorSelect
+          angle={this.props.angle} 
           changeDeckColor={(c) => this.props.changeDeckColor(c)}
           changeDeckTexture={(t) => this.props.changeDeckTexture(t)}
-          changeCasterColor={(c) => this.props.changeCasterColor(c)}
+          changeWheelsColor={(c) => this.props.changeWheelsColor(c)}
           changeScrewColor={(c) => this.props.changeScrewColor(c)}
-          changeAssemblyColor={(c) => this.props.changeAssemblyColor(c)}
-          changeAssemblyTexture={(t) => this.props.changeAssemblyTexture(t)}
+          changeComponentColor={(c) => this.props.changeComponentColor(c)}
           changeWood={(w) => this.props.changeWood(w)}
         />
       </div>

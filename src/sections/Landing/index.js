@@ -43,9 +43,7 @@ class Landing extends React.Component {
     let map = new THREE.TextureLoader().load(ASSETS_PATH + 'textures/' + texture.path, () => {
       map.anisotropy = 1;
       // map.repeat.set(3, 5);
-      
       map.wrapS = map.wrapT = THREE.RepeatWrapping
-
       this.props.materials.deck.materials[1] = new THREE.MeshPhongMaterial(Object.assign(
           this.props.materials.deck.materials[1],
           {
@@ -59,7 +57,7 @@ class Landing extends React.Component {
     });
   }
 
-  changeCasterColor(color) {
+  changeWheelsColor(color) {
     this.props.materials.wheels.materials[2].color = new THREE.Color(parseInt(color.color));
   }
 
@@ -67,12 +65,8 @@ class Landing extends React.Component {
     this.props.materials.screws.materials[0].color = new THREE.Color(parseInt(color.color));
   }
 
-  changeAssemblyColor(color) {
+  changeComponentColor(color) {
     this.props.materials.wheels.materials[0].color = new THREE.Color(parseInt(color.color));
-  }
-  //TODO
-  changeAssemblyTexture(texture) {
-
   }
   //TODO
   changeWood(wood) {
@@ -99,10 +93,9 @@ class Landing extends React.Component {
           angle={this.props.angle}
           changeDeckColor={(c) => this.changeDeckColor(c)}
           changeDeckTexture={(t) => this.changeDeckTexture(t)}
-          changeCasterColor={(c) => this.changeCasterColor(c)}
+          changeWheelsColor={(c) => this.changeWheelsColor(c)}
           changeScrewColor={(c) => this.changeScrewColor(c)}
-          changeAssemblyColor={(c) => this.changeAssemblyColor(c)}
-          changeAssemblyTexture={(t) => this.changeAssemblyTexture(t)}
+          changeComponentColor={(c) => this.changeComponentColor(c)}
           changeWood={(w) => this.changeWood(w)}
         />
       </ReactF1>
@@ -131,7 +124,8 @@ const mapDispatchToProps = (dispatch) => {
 
 Landing.defaultProps = {
   width: 960,
-  height: 570
+  height: 570,
+  angle: "deck"
 };
 
 // export default Landing;

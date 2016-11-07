@@ -2,8 +2,8 @@
 import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 import { skateboard, viewPoints, transitionViews } from '../../config/objects.json';
+import lerp from 'lerp';
 
-// const glslify = require('glslify');
 const path = require('path');
 const createLoop = require('raf-loop');
 const createScene = require('scene-template');
@@ -17,9 +17,13 @@ const ASSETS_PATH = '/assets/';
 class Scene extends React.Component {
   constructor(props) {
     super(props);
-    this.arcSamples = [];
+    this.arcSamples = this.originSamples = this.rotationSamples = [];
     this.arcTime = SPLINE_SPEED;
     this.origin = new THREE.Vector3(0, 0, 0);
+    window.origin = this.origin;
+    this.state = {
+      controlsEnabled: true
+    };
   }
 
   componentWillMount() {
@@ -31,7 +35,10 @@ class Scene extends React.Component {
     this.initScene(domElement, () => {
 
     });
-    window.addEventListener('resize', () => this.resizeCanvas());
+    domElement.addEventListener('resize', () => this.resizeCanvas());
+    domElement.addEventListener('touchstart', () => this.handleInput());
+    domElement.addEventListener('mousewheel', () => this.handleInput());
+    domElement.addEventListener('mousedown', () => this.handleInput());
   }
 
   componentWillReceiveProps(nextProps) {
@@ -41,23 +48,60 @@ class Scene extends React.Component {
   }
 
   componentWillUnmount() {
+    let domElement = ReactDOM.findDOMNode(this.refs['main-scene']);
     window.removeEventListener('resize', this.resizeCanvas);
+    domElement.removeEventListener('touchstart', this.handleInput);
+    domElement.removeEventListener('mousewheel', this.handleInput);
+    domElement.removeEventListener('mousedown', this.handleInput);
+  }
+
+  handleInput() {
+    console.log('touchstart');  
+    !this.state.controlsEnabled ? goToDefault.call(this) : null;
+
+    function goToDefault() {
+      this.cameraRailTo('default');
+      this.setState({
+        controlsEnabled: true
+      });
+    };
   }
 
   cameraRailTo(angle) {
     this.arcSamples = [];
+    this.originSamples = [];
+    this.rotationSamples = [];
     this.arcTime = 0;
+    this.setState({
+      controlsEnabled: false
+    })
     let initialPoint = this.camera.position;
-    let endPoint;
+    let endPoint, newTarget, newRotation;
     switch(angle) {
       case 'wheels':
         endPoint = viewPoints['wheel-customization'].pos;
+        newTarget = viewPoints['wheel-customization'].target;
+        newRotation = viewPoints['wheel-customization'].rot;
         break;
       case 'deck':
         endPoint = viewPoints['deck-customization'].pos;  
+        newTarget = viewPoints['deck-customization'].target;  
+        newRotation = viewPoints['deck-customization'].rot;  
         break;
       case 'wood':
         endPoint = viewPoints['wood-customization'].pos;
+        newTarget = viewPoints['wood-customization'].target;
+        newRotation = viewPoints['wood-customization'].rot;
+        break;
+      case 'component':
+        endPoint = viewPoints['component-customization'].pos;
+        newTarget = viewPoints['component-customization'].target;
+        newRotation = viewPoints['component-customization'].rot;
+        break;
+      case 'default':
+        endPoint = viewPoints['default'].pos;
+        newTarget = viewPoints['default'].target;
+        newRotation = viewPoints['default'].rot;
         break;
       default:
         return;
@@ -66,7 +110,6 @@ class Scene extends React.Component {
       endPoint[0], endPoint[1], endPoint[2]
     );
     let centrePoint = midPoint(initialPoint, endPoint);
-    
     let curve = new THREE.QuadraticBezierCurve3();
     curve.v0 = initialPoint;
     curve.v1 = centrePoint;
@@ -74,9 +117,20 @@ class Scene extends React.Component {
     for(var i = 0; i < SPLINE_SPEED; i++) {
       let s = curve.getPoint(i/SPLINE_SPEED);
       this.arcSamples.push([s.x, s.y, s.z]);
+      this.originSamples.push( new THREE.Vector3(
+          lerp(this.origin.x, newTarget[0], i/SPLINE_SPEED),
+          lerp(this.origin.x, newTarget[1], i/SPLINE_SPEED),
+          lerp(this.origin.x, newTarget[2], i/SPLINE_SPEED)
+        )
+      );
+      newRotation ? this.rotationSamples.push([
+        lerp(this.camera.rotation.x, newRotation[0], i/SPLINE_SPEED),
+        lerp(this.camera.rotation.y, newRotation[1], i/SPLINE_SPEED),
+        lerp(this.camera.rotation.z, newRotation[2], i/SPLINE_SPEED)
+      ]) : null;
     }
     
-
+    this.newRotation = newRotation;
     function midPoint(i, e) {
       return new THREE.Vector3(
         (i.x + e.x)/2,
@@ -117,7 +171,6 @@ class Scene extends React.Component {
       domElement: el
     };
 
-
     let { 
       renderer,
       camera,
@@ -125,17 +178,13 @@ class Scene extends React.Component {
       controls,
       updateControls
     } = createScene(opts, THREE);
-
     light.position.set(10, 5, -10);
-    light.lookAt(new THREE.Vector3(0,0,0));
-
+    light.lookAt(this.origin);
     scene.add(ambient);
     scene.add(light);
-
     renderer.shadowMap.enabled = true;
     renderer.shadowMapSoft = true;
-    renderer.setClearColor(CLEAR_COLOR, 1);
-    
+    renderer.setClearColor(CLEAR_COLOR, 1);   
     Object.assign(this, { 
       renderer, 
       camera, 
@@ -146,6 +195,7 @@ class Scene extends React.Component {
     if(process.env.NODE_ENV !== 'production') {
       window.scene = this.scene;
       window.camera = this.camera;
+      window.controls = this.controls;
     }
 
     this.initMainObject(scene, (obj) => {
@@ -154,30 +204,30 @@ class Scene extends React.Component {
         deck: obj.children.filter((d) => d.name === 'DECK')[0].material,
         wheels: obj.children.filter((d) => d.name === 'WHEELS')[0].material,
         screws: obj.children.filter((d) => d.name === 'SCREWS')[0].material
-      })
-      
-
+      });   
       createLoop((dt) => {
         this.animateArc();
-        updateControls();
+        this.state.controlsEnabled ? updateControls() : null;
         renderer.render(this.scene, this.camera);
       }).start();  
-
       cb ? cb() : null;
     });
   }
 
-
   animateArc() {
     if(this.arcTime >= SPLINE_SPEED) return;
-    this.camera.position.fromArray(this.arcSamples[this.arcTime++]);
+    let factor = this.arcTime / SPLINE_SPEED;
+    this.camera.position.fromArray(this.arcSamples[this.arcTime]);
     this.controls.position = [
       camera.position.x,
       camera.position.y,
       camera.position.z
     ];
-
-    //this.camera.lookAt(this.origin);
+    this.camera.lookAt(this.originSamples[this.arcTime]);
+    this.newRotation ? 
+    this.camera.rotation.fromArray(this.rotationSamples[this.arcTime])
+    : null;
+    this.arcTime++;
   }
 
   initMainObject(scene, cb) {
@@ -195,31 +245,36 @@ class Scene extends React.Component {
         let map = new THREE.TextureLoader().load(ASSETS_PATH + 'models/textures/sandpaper.png', () =>{
           map.anisotropy = 1;
           map.repeat.set(7, 7);
-          map.wrapS = map.wrapT = THREE.RepeatWrapping;
-          
+          map.wrapS = map.wrapT = THREE.RepeatWrapping;    
           Object.assign(material.materials[1], {
             bumpMap: map,
             bumpScale: 0.1
           });
-
           let newObj = new THREE.Mesh(geo, material);
           newObj.name = 'DECK';
-        
           obj.add(newObj);
           cb ? cb() : null  
         });
-        
       });
     }
+
     function loadWheels(obj, cb) {
       loader.load(ASSETS_PATH + skateboard.wheels, (geo, mat) => {
-        let material = new THREE.MultiMaterial(mat);
-        let newObj = new THREE.Mesh(geo, material);
-        newObj.name = 'WHEELS';
-        obj.add(newObj);
-        cb ? cb() : null
+        let map  =new THREE.TextureLoader().load(ASSETS_PATH + 'models/textures/powder-coat.jpg', () => {
+          let material = new THREE.MultiMaterial(mat);
+          map.anisotropy = 2;
+          map.repeat.set(100, 100);
+          map.wrapS = map.wrapT = THREE.RepeatWrapping;
+          material.materials[0].bumpMap = map;
+          material.materials[0].bumpScale = 0.1;          
+          let newObj = new THREE.Mesh(geo, material);
+          newObj.name = 'WHEELS';
+          obj.add(newObj);
+          cb ? cb() : null  
+        });
       });
     }
+
     function loadScrews(obj, cb) {
       loader.load(ASSETS_PATH + skateboard.screws, (geo, mat) => {
         let material = new THREE.MultiMaterial(mat);

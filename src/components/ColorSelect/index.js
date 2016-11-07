@@ -2,42 +2,44 @@
 import React, {PropTypes} from 'react';
 import { customization } from '../../config/objects.json';
 
-const deck = customization.deck;
+// const deck = customization.deck;
 
 class ColorSelect extends React.Component {
   constructor(props) {
     super(props);
-  }
-
-  componentWillMount() {
-    // component has not been rendered to DOM yet
-    // process any data here if needed
-  }
-
-  componentDidMount() {
-    // component has been rendered to DOM
+    this.state = {
+      colorFunctionName: undefined,
+      textureFunctionName: undefined
+    }
   }
 
   componentWillReceiveProps(nextProps) {
-    // component has already rendered but will re-render when receives new props
-  }
-
-  componentWillUnmount() {
-    // component is about to be removed from DOM
-    // clean up any event listeners ect. here
+    if(this.props.angle !== nextProps.angle) {
+      let colorFunctionName = 'change' + nextProps.angle[0].toUpperCase()
+      + nextProps.angle.substring(1, nextProps.angle.length) + 'Color';
+      let textureFunctionName = 'change' + nextProps.angle[0].toUpperCase()
+      + nextProps.angle.substring(1, nextProps.angle.length) + 'Texture';
+      this.setState({
+        colorFunctionName,
+        textureFunctionName 
+      })
+    }
   }
 
   render() {
     const style = Object.assign({}, {}, this.props.style);
     const className = 'color-select-container';
-
+    let colorFunctionName = this.state.colorFunctionName ||  'change' + this.props.angle[0].toUpperCase()
+      + this.props.angle.substring(1, this.props.angle.length) + 'Color';
+      let textureFunctionName = this.state.textureFunctionName || 'change' + this.props.angle[0].toUpperCase()
+      + this.props.angle.substring(1, this.props.angle.length) + 'Texture'; 
     return (
       <div
         className={`${className} ${this.props.className}`}
         style={style}
       >
         {
-          deck.colors.map((color, i) => {
+          customization[this.props.angle].colors.map((color, i) => {
             return (
               <div 
                 key={i}
@@ -45,20 +47,20 @@ class ColorSelect extends React.Component {
                 style={{
                   backgroundColor: '#' + color.color.split('0x')[1]
                 }} 
-                onClick={() => this.props.changeDeckColor(color)}
-                onTouchStart={() => this.props.changeDeckColor(color)}  
+                onClick={() => this.props[this.state.colorFunctionName || colorFunctionName](color)}
+                onTouchStart={() => this.props[this.state.colorFunctionName || colorFunctionName](color)}  
               />
             )
           })
         }
         {
-          deck.textures.map((tex, i) => {
+          customization[this.props.angle].textures.map((tex, i) => {
             return (
               <div
                 key={i}
                 className='select-item texture-select'
-                onClick={() => this.props.changeDeckTexture(tex)}
-                onTouchStart={() => this.props.changeDeckTexture(tex)}  
+                onClick={() => this.props[this.state.textureFunctioName || textureFunctionName](tex)}
+                onTouchStart={() => this.props[this.state.textureFunctioName || textureFunctionName](tex)}  
               >
                 <div 
                   className='texture-select-image' 
