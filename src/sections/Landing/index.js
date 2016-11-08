@@ -5,11 +5,12 @@ import states from './states';
 import transitions from './transitions';
 import { connect } from 'react-redux';
 
-import { updateMaterialsLibrary, updateAngle } from './actions';
+import { updateMaterialsLibrary, updateAngle, toggleHamburger } from './actions';
 
 import Scene from '../../components/Scene';
 import ColorSelect from '../../components/ColorSelect';
 import PartViewer from '../../components/PartViewer';
+import Hamburger from '../../components/Hamburger';
 
 const ASSETS_PATH = '/assets/';
 
@@ -83,12 +84,23 @@ class Landing extends React.Component {
         transitions={transitions(this.props)}
         id="Landing"
         data-f1="container"
-      >
-        <Scene 
-          updateMaterialsLibrary={this.props.updateMaterialsLibrary}
-          angle={this.props.angle}
+      > 
+        <Hamburger 
+          toggleHamburger={this.props.toggleHamburger}
+          hamburger={this.props.hamburger}
         />
+        {
+          window.innerWidth > window.innerHeight ? 
+          <Scene 
+            updateMaterialsLibrary={this.props.updateMaterialsLibrary}
+            angle={this.props.angle}
+            toggleHamburger={this.props.toggleHamburger}
+            hamburger={this.props.hamburger}
+          /> : null
+        }
         <PartViewer
+          hamburger={this.props.hamburger}
+          toggleHamburger={this.props.toggleHamburger}
           updateAngle={this.props.updateAngle}
           angle={this.props.angle}
           changeDeckColor={(c) => this.changeDeckColor(c)}
@@ -106,7 +118,8 @@ class Landing extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     materials: state.materials,
-    angle: state.angle
+    angle: state.angle,
+    hamburger: state.hamburger
   }
 };
 
@@ -117,6 +130,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     updateAngle: function(val) {
       dispatch(updateAngle(val));
+    },
+    toggleHamburger: function(val) {
+      dispatch(toggleHamburger(val));
     }
   };
 };
@@ -125,7 +141,8 @@ const mapDispatchToProps = (dispatch) => {
 Landing.defaultProps = {
   width: 960,
   height: 570,
-  angle: "deck"
+  angle: 'deck',
+  hamburger: false
 };
 
 // export default Landing;

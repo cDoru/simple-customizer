@@ -14,3 +14,10 @@ export const updateAngle = function(angle) {
     angle
   }
 }
+
+export const toggleHamburger = function(hamburger) {
+  return {
+    type: keys.TOGGLE_HAMBURGER,
+    hamburger
+  };
+}

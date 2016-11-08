@@ -1,6 +1,6 @@
 import React from 'react';
 import SVGInline from 'react-svg-inline';
-import RotateIcon from '../../../raw-assets/svg/rotate.svg';
+import RotateIcon from '../../../raw-assets/svg/rotate-screen-landscape.svg';
 
 export default class RotateScreen extends React.Component {
 
@@ -25,7 +25,7 @@ export default class RotateScreen extends React.Component {
   render() {
     const isLandscape = this.props.width > this.props.height;
     const style = {
-      visibility: isLandscape ? 'visible' : 'hidden'
+      visibility: isLandscape ? 'hidden' : 'visible'
     };
 
     return (
@@ -34,7 +34,7 @@ export default class RotateScreen extends React.Component {
           <div className="rotate-icon">
             <SVGInline svg={RotateIcon}/>
           </div>
-          <p>Please rotate your device<br/>into portrait mode.</p>
+          <p>Please rotate your device<br/>into landscape mode.</p>
         </div>
       </div>
     )

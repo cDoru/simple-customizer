@@ -51,7 +51,7 @@ class App extends React.Component {
         <TransitionGroup id="content" component="div" transitionMode="out-in">
           {this.getContent()}
         </TransitionGroup>
-        { detect.isPhone ? <RotateScreen width={this.state.width} height={this.state.height} /> : undefined }
+        <RotateScreen width={this.state.width} height={this.state.height} />
       </div>
     )
   }

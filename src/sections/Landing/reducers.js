@@ -20,3 +20,12 @@ export const angle = function(state = 'deck', action) {
   }
 }
 
+export const hamburger = function(state = false, action) {
+  switch (action.type) {
+    case keys.TOGGLE_HAMBURGER:
+      return action.hamburger
+    default:
+      return state
+  } 
+}
+

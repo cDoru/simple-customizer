@@ -1,22 +1,66 @@
+.dashboard {
+  width: 38vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: -38vw;
+  /* background-image: url('/assets/images/dashboard-background.jpg'); */
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center center;
+}
+
+.dash-back-button {
+  position: absolute;
+  right: 15px;
+  width: 70px;
+  height: 70px;
+  background-image: url('/assets/images/back-icon.png');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center center;
+  transform: translateY(8px);
+}
+
+.view-container {
+  margin-top: 85px;
+}
+
 .view-button {
-  width: 20px;
-  height: 20px;
-  background-color: rgba(150, 50, 50, 1);
-  border: solid;
+  width: 23%;
+  height: 75px;
+  display: inline-block;
+  margin-left: 2.0%;
 }
 
 .deck-button {
-  
-}
-
-.wheels-button {
-  
+  background-color: #aaa;
+  background-image: url('/assets/svg/top-icon.svg');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
 }
 
 .wood-button {
-  
+  background-color: #aaa;
+  background-image: url('/assets/svg/bottom-icon.svg');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.wheels-button {
+  background-color: #aaa;
+  background-image: url('/assets/images/wheel-icon.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
 }
 
 .component-button {
-  
+  background-color: #aaa;
+  background-image: url('/assets/images/component-icon.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
 }

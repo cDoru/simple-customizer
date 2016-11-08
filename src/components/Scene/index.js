@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom';
 import { skateboard, viewPoints, transitionViews } from '../../config/objects.json';
 import lerp from 'lerp';
 
+const Halogen = require('halogen/RingLoader');
+
 const path = require('path');
 const createLoop = require('raf-loop');
 const createScene = require('scene-template');
@@ -22,20 +24,17 @@ class Scene extends React.Component {
     this.origin = new THREE.Vector3(0, 0, 0);
     window.origin = this.origin;
     this.state = {
-      controlsEnabled: true
+      controlsEnabled: true,
+      loaded: false
     };
-  }
-
-  componentWillMount() {
-
   }
 
   componentDidMount() {
     let domElement = ReactDOM.findDOMNode(this.refs['main-scene']);
     this.initScene(domElement, () => {
-
+      this.setState({loaded: true});
     });
-    domElement.addEventListener('resize', () => this.resizeCanvas());
+    window.addEventListener('resize', () => this.resizeCanvas());
     domElement.addEventListener('touchstart', () => this.handleInput());
     domElement.addEventListener('mousewheel', () => this.handleInput());
     domElement.addEventListener('mousedown', () => this.handleInput());
@@ -56,9 +55,8 @@ class Scene extends React.Component {
   }
 
   handleInput() {
-    console.log('touchstart');  
     !this.state.controlsEnabled ? goToDefault.call(this) : null;
-
+    this.props.hamburger ? this.props.toggleHamburger(false) : null;
     function goToDefault() {
       this.cameraRailTo('default');
       this.setState({
@@ -294,7 +292,26 @@ class Scene extends React.Component {
         className={`${className} ${this.props.className}`}
         style={style}
         ref='main-scene'
-      />
+      >
+      {
+        !this.state.loaded ? 
+        <div 
+          className='scene-loader' 
+          style={{
+            width: window.innerWidth + 'px',
+            height: window.innerWidth * 0.56 + 'px'
+          }}
+        > 
+          <Halogen
+            className='ringloader'
+            color='#ffffff'
+            size={window.innerWidth / 3 + 'px'}
+          />
+          <p>{'Loading Please Wait'}</p>
+        </div>
+        : null
+      }
+      </div>
     )
   }
 }
