@@ -190,11 +190,11 @@ class Scene extends React.Component {
       controls,
       updateControls 
     });
-    if(process.env.NODE_ENV !== 'production') {
-      window.scene = this.scene;
-      window.camera = this.camera;
-      window.controls = this.controls;
-    }
+  
+    window.scene = this.scene;
+    window.camera = this.camera;
+    window.controls = this.controls;
+    
     this.initReflectivePlane(scene);
     this.initMainObject(scene, (obj) => {
       this.scene.add(obj);
