@@ -33,47 +33,55 @@ class ColorSelect extends React.Component {
       + this.props.angle.substring(1, this.props.angle.length) + 'Color';
       let textureFunctionName = this.state.textureFunctionName || 'change' + this.props.angle[0].toUpperCase()
       + this.props.angle.substring(1, this.props.angle.length) + 'Texture'; 
-    return (
-      <div
-        className={`${className} ${this.props.className}`}
-        style={style}
-      >
-        {
-          customization[this.props.angle].colors.map((color, i) => {
-            return (
-              <div 
-                key={i}
-                className='select-item color-select'
-                style={{
-                  backgroundColor: '#' + color.color.split('0x')[1]
-                }} 
-                onClick={() => this.props[this.state.colorFunctionName || colorFunctionName](color)}
-                onTouchStart={() => this.props[this.state.colorFunctionName || colorFunctionName](color)}  
-              />
-            )
-          })
-        }
-        {
-          customization[this.props.angle].textures.map((tex, i) => {
-            return (
-              <div
-                key={i}
-                className='select-item texture-select'
-                onClick={() => this.props[this.state.textureFunctioName || textureFunctionName](tex)}
-                onTouchStart={() => this.props[this.state.textureFunctioName || textureFunctionName](tex)}  
-              >
+    if(this.props.angle === 'default') {
+      return (
+        <div />
+      );
+    } 
+    else {
+      return (
+        <div
+          className={`${className} ${this.props.className}`}
+          style={style}
+        >
+          {
+            customization[this.props.angle].colors.map((color, i) => {
+              return (
                 <div 
-                  className='texture-select-image' 
+                  key={i}
+                  className='select-item color-select'
                   style={{
-                    backgroundImage: 'url(/assets/textures/' + tex.path + ')',
-                  }}
+                    backgroundColor: '#' + color.color.split('0x')[1]
+                  }} 
+                  onClick={() => this.props[this.state.colorFunctionName || colorFunctionName](color)}
+                  onTouchStart={() => this.props[this.state.colorFunctionName || colorFunctionName](color)}  
                 />
-              </div>
-            )
-          })
-        }
-      </div>
-    )
+              )
+            })
+          }
+          {
+            customization[this.props.angle].textures.map((tex, i) => {
+              return (
+                <div
+                  key={i}
+                  className='select-item texture-select'
+                  onClick={() => this.props[this.state.textureFunctioName || textureFunctionName](tex)}
+                  onTouchStart={() => this.props[this.state.textureFunctioName || textureFunctionName](tex)}  
+                >
+                  <div 
+                    className='texture-select-image' 
+                    style={{
+                      backgroundImage: 'url(/assets/textures/' + tex.path + ')',
+                    }}
+                  />
+                </div>
+              )
+            })
+          }
+        </div>
+      )  
+    } 
+    
   }
 }
 

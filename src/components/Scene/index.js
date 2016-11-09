@@ -195,7 +195,7 @@ class Scene extends React.Component {
       window.camera = this.camera;
       window.controls = this.controls;
     }
-
+    this.initReflectivePlane(scene);
     this.initMainObject(scene, (obj) => {
       this.scene.add(obj);
       this.props.updateMaterialsLibrary({
@@ -203,12 +203,69 @@ class Scene extends React.Component {
         wheels: obj.children.filter((d) => d.name === 'WHEELS')[0].material,
         screws: obj.children.filter((d) => d.name === 'SCREWS')[0].material
       });   
+      let index = 0;
       createLoop((dt) => {
         this.animateArc();
         this.state.controlsEnabled ? updateControls() : null;
+
+        if(++index === 30) {
+          index = 0;
+          this.road.visible = false;
+          this.mirrorPlaneMaterial.envMap = this.mirrorPlaneCamera.renderTarget.texture;
+          this.mirrorPlaneCamera.updateCubeMap(this.renderer, this.scene);
+          this.road.visible = true;          
+        }
+      
         renderer.render(this.scene, this.camera);
       }).start();  
       cb ? cb() : null;
+    });
+  }
+
+  initReflectivePlane(scene) {
+    let light = new THREE.SpotLight(0xffffff, 1);
+    light.position.set(-2.7, 2, 3);
+    light.castShadow = true;
+    light.angle = 0.52;
+    light.decay = 2;
+    light.distance = 20;
+    light.shadow.mapSize.width = 512;
+    light.shadow.mapSize.height = 512;
+    light.shadow.camera.near = 1;
+    light.shadow.camera.far = 20;
+    light.name = 'the spotlight';
+    light.lookAt(new THREE.Vector3(0, 0, 0));
+    scene.add(light);    
+    let mirrorPlaneCamera = new THREE.CubeCamera(1,1000, 512);
+    mirrorPlaneCamera.name = 'mirror camera';
+    mirrorPlaneCamera.renderTarget.texture.minFilter = THREE.LinearMipMapLinearFilter;
+    scene.add(mirrorPlaneCamera);
+    mirrorPlaneCamera.position.set(0, -3.8, 0);
+    mirrorPlaneCamera.rotation.set(0, 0, 0);
+
+    let tex = new THREE.TextureLoader().load(ASSETS_PATH + 'models/textures/metal15.jpg');
+    let roadGeom = new THREE.PlaneGeometry(30, 30, 300);
+
+    let mirrorPlaneMaterial = new THREE.MeshLambertMaterial({
+      normalMap: tex.normal,
+      specularMap: tex.specular,
+      reflectivity: 0.25,
+      envMap: mirrorPlaneCamera.renderTarget.texture,
+      bumpMap: tex
+    });
+    let road = new THREE.Mesh(
+      roadGeom,
+      mirrorPlaneMaterial
+    );
+    road.name = 'road';
+    road.receiveShadow = true;
+    road.position.set(0, -0.28, 0);
+    road.rotation.set(-Math.PI/2, 0, 0);
+    scene.add(road);
+    Object.assign(this, {
+      road,
+      mirrorPlaneCamera,
+      mirrorPlaneMaterial
     });
   }
 
@@ -318,14 +375,12 @@ class Scene extends React.Component {
 
 Scene.propTypes = {
   style: PropTypes.object,
-  className: PropTypes.string,
-  view: PropTypes.string
+  className: PropTypes.string
 };
 
 Scene.defaultProps = {
   style: {},
-  className: '',
-  view: 'deck1'
+  className: ''
 };
 
 export default Scene;

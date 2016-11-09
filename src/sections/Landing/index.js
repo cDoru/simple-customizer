@@ -11,6 +11,7 @@ import Scene from '../../components/Scene';
 import ColorSelect from '../../components/ColorSelect';
 import PartViewer from '../../components/PartViewer';
 import Hamburger from '../../components/Hamburger';
+import Footer from '../../components/Footer';
 
 const ASSETS_PATH = '/assets/';
 
@@ -110,6 +111,7 @@ class Landing extends React.Component {
           changeComponentColor={(c) => this.changeComponentColor(c)}
           changeWood={(w) => this.changeWood(w)}
         />
+        <Footer />
       </ReactF1>
     );
   }
@@ -141,7 +143,7 @@ const mapDispatchToProps = (dispatch) => {
 Landing.defaultProps = {
   width: 960,
   height: 570,
-  angle: 'deck',
+  angle: 'default',
   hamburger: false
 };
 

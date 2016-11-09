@@ -2,12 +2,17 @@
   display: inline-block;
   margin-left: 20px;
   border-radius: 50%;
+  transition: transform 0.5s;
+}
+
+.select-item:hover {
+  transform: scale(1.1, 1.1);
 }
 
 .color-select-container {
   width: 100%;
   height: 400px;
-  background-color: rgba(0, 0, 0, 0.4);
+  padding: 15px;
 }
 
 .color-select {
@@ -23,10 +28,18 @@
   overflow: hidden;
 }
 
+.selected {
+  border-color: white;
+}
+
 .texture-select-image {
   width: 100%;
   height: 100%;
   background-size: cover;
   transform: scale(4.3, 7) translate(20%, 35%); 
   z-index: 999;
+}
+
+@media screen and (max-width: 700px) {
+
 }

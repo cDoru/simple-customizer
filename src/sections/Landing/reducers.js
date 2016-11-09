@@ -11,7 +11,7 @@ export const materials = function(state = a, action) {
   }
 };
 
-export const angle = function(state = 'deck', action) {
+export const angle = function(state = 'default', action) {
   switch (action.type) {
     case keys.UPDATE_ANGLE:
       return action.angle

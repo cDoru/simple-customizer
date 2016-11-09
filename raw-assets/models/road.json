@@ -1,0 +1,17 @@
+{
+    "name":"Plane.002Geometry.1",
+    "vertices":[-18,-0,1.1e-05,-23.0001,-0,1.9e-05,-23,-0,-4.99998,-18,-0,-4.99997],
+    "faces":[41,3,0,1,2,2,3,0,1,0,0,0,0],
+    "metadata":{
+        "vertices":4,
+        "type":"Geometry",
+        "faces":1,
+        "mapDiffuse": "textures/metal15.jpg",
+        "normals":1,
+        "uvs":1,
+        "version":3,
+        "generator":"io_three"
+    },
+    "uvs":[[0,0,1.1e-05,1,0.999999,0.999997,1,2e-06]],
+    "normals":[-0,0,1]
+}

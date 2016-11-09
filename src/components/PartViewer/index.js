@@ -38,7 +38,7 @@ class PartViewer extends React.Component {
   animateOut() {
     let dash = ReactDOM.findDOMNode(this.refs.dashboard);
     gsap.to(dash, 0.5, {
-      left: '-38vw'
+      left: window.innerWidth <  700 ? '-100vw' : '-38vw'
     });
   }
 
