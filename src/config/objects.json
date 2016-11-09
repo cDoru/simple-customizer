@@ -9,109 +9,81 @@
       "colors": [
         {
           "color": "0x771f1f",
-          "name": "red"
+          "name": "Red"
         },
         {
           "color": "0x5F9F9F",
-          "name": "cadet blue"
+          "name": "Cadet blue"
         },
         {
           "color": "0x2F4F4F",
-          "name": "slate grey"
+          "name": "Slate grey"
         },
         {
           "color": "0x551A8B",
-          "name": "royal purple"
+          "name": "Royal purple"
         },
         {
           "color": "0x32cd32",
-          "name": "lime green"
+          "name": "Lime green"
         },
         {
           "color": "0xff6600",
-          "name": "boosted orange"
+          "name": "Boosted orange"
         },
         {
           "color": "0x000000",
-          "name": "jet black"
+          "name": "Jet black"
         },
         {
           "color": "0xf6f7f4",
-          "name": "arctic white"
+          "name": "Arctic white"
         }
       ],
       "textures": [
         {
           "path": "crime-tex.png",
-          "name": "crime"
+          "name": "Not a Crime"
         },
         {
           "path": "girl1-tex.png",
-          "name": "girl one"
+          "name": "Girl one"
         },
         {
           "path": "girl2-tex.png",
-          "name": "girl two"
-        },
-        {
-          "path": "shaman1-tex.png",
-          "name": "shaman one"
-        },
-        {
-          "path": "shaman2-tex.png",
-          "name": "shaman two"
-        },
-        {
-          "path": "shaman3-tex.png",
-          "name": "shaman three"
+          "name": "Girl two"
         },
         {
           "path": "tribal1-tex.png",
-          "name": "tribal one"
+          "name": "Tribal one"
         },
         {
           "path": "tribal2-tex.png",
-          "name": "tribal two"
+          "name": "Tribal two"
         },
         {
           "path": "tribal3-tex.png",
-          "name": "tribal three"
-        },
-        {
-          "path": "santa-cruz1-tex.png",
-          "name": "santa cruz one"
-        },
-        {
-          "path": "santa-cruz2-tex.png",
-          "name": "santa cruz two"
-        },
-        {
-          "path": "santa-cruz3-tex.png",
-          "name": "santa cruz three"
+          "name": "Tribal three"
         }
       ]
     },
     "wheels": {
       "colors": [
         {
-          "color": "0x551A8B",
-          "name": "royal purple"
+          "color": "0xee7600",
+          "name": "Boosted orange"
         },
         {
-          "color": "0x32cd32",
-          "name": "lime green"
+          "color": "0x181818",
+          "name": "Classic black"
         },
         {
-          "color": "0xff6600",
-          "name": "boosted orange"
+          "color": "0x696969",
+          "name": "Arctic white"
         },
         {
-          "color": "0x000000",
-          "name": "jet black"
-        },
-        {
-          "color": "0xf6f7f4",
-          "name": "arctic white"
+          "color": "0x7aba71",
+          "name": "Humboldt Green"
         }
       ],
       "textures": [
@@ -120,24 +92,28 @@
     "component": {
       "colors": [
         {
-          "color": "0x551A8B",
-          "name": "royal purple"
+          "color": "0x181818",
+          "name": "Classic steel"
+        },  
+        {
+          "color": "0x292E37",
+          "name": "Gun metal grey"
         },
         {
-          "color": "0x32cd32",
-          "name": "lime green"
+          "color": "0x2b3b44",
+          "name": "Gun metal purple"
         },
         {
-          "color": "0xff6600",
-          "name": "boosted orange"
+          "color": "0xa88924",
+          "name": "Metallic Gold"
         },
         {
-          "color": "0x000000",
-          "name": "jet black"
+          "color": "0x7c8f9c",
+          "name": "Metallic Silver"
         },
         {
-          "color": "0xf6f7f4",
-          "name": "arctic white"
+          "color": "0x7b9095",
+          "name": "Industrial Steel"
         }
       ],
       "textures": [
