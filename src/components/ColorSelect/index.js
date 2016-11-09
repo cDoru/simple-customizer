@@ -71,7 +71,7 @@ class ColorSelect extends React.Component {
                   <div 
                     className='texture-select-image' 
                     style={{
-                      backgroundImage: 'url(/assets/textures/' + tex.path + ')',
+                      backgroundImage: 'url(/assets/textures/' + tex.path.split('.')[0] + '-thumb.' + tex.path.split('.')[1] + ')',
                     }}
                   />
                 </div>

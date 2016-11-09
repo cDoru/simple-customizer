@@ -98,6 +98,10 @@ class PartViewer extends React.Component {
             onTouchStart={() => this.onClickSelector('component')}
           />
         </div>
+        <div className='part-copy'>
+          <h1>{this.props.dashCopy.copy}</h1>
+          <p>{this.props.dashCopy.name}</p>
+        </div>
         <ColorSelect
           angle={this.props.angle} 
           ref='color-select'

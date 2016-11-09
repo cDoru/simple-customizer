@@ -4,7 +4,6 @@ import ReactF1 from 'react-f1';
 import states from './states';
 import transitions from './transitions';
 import { connect } from 'react-redux';
-
 import { updateMaterialsLibrary, updateAngle, toggleHamburger } from './actions';
 
 import Scene from '../../components/Scene';
@@ -19,7 +18,11 @@ class Landing extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      state: 'out'
+      state: 'out',
+      dashCopy: {
+        copy: 'Part Selector',
+        name: 'Select one of the above icons to customize a part'
+      }
     };
   }
   componentWillEnter(done) {
@@ -34,11 +37,57 @@ class Landing extends React.Component {
       onComplete: done
     });
   }
+  componentWillReceiveProps(nextProps) {
+    if(this.props.angle !== nextProps.angle) {
+      switch(nextProps.angle) {
+        case 'deck':
+          this.setState({
+            dashCopy: {
+              name: 'deck color and style customization',
+              copy: "Deck"
+            }
+          });
+          break;
+        case 'wheels':
+          this.setState({
+            dashCopy: {
+              name: 'wheel color customization',
+              copy: "Wheels"
+            }
+          });
+          break;
+        case 'wood':
+          this.setState({
+            dashCopy: {
+              name: 'wood grain',
+              copy: "Wood"
+            }
+          });
+          break;
+        case 'component':
+          this.setState({
+            dashCopy: {
+              name: 'component customization',
+              copy: "Components"
+            }
+          });
+          break;
+        default:
+          break;
+      }
+    }
+  }
 
   changeDeckColor(color) {
     this.props.materials.deck.materials[1].color = new THREE.Color(parseInt(color.color));
     this.props.materials.deck.materials[1].map = undefined;
     this.props.materials.deck.materials[1].needsUpdate = true;
+    this.setState({
+      dashCopy: {
+        name: color.name,
+        copy: "Deck"
+      }
+    })
   }
   //TODO
   changeDeckTexture(texture) {
@@ -57,10 +106,22 @@ class Landing extends React.Component {
       );
       this.props.materials.deck.materials[1].needsUpdate = true;
     });
+    this.setState({
+      dashCopy: {
+        name: texture.name,
+        copy: "Deck"
+      }
+    })
   }
 
   changeWheelsColor(color) {
     this.props.materials.wheels.materials[2].color = new THREE.Color(parseInt(color.color));
+    this.setState({
+      dashCopy: {
+        name: color.name,
+        copy: "Wheels"
+      }
+    })
   }
 
   changeScrewColor(color) {
@@ -69,6 +130,12 @@ class Landing extends React.Component {
 
   changeComponentColor(color) {
     this.props.materials.wheels.materials[0].color = new THREE.Color(parseInt(color.color));
+    this.setState({
+      dashCopy: {
+        name: color.name,
+        copy: "Components"
+      }
+    })
   }
   //TODO
   changeWood(wood) {
@@ -110,6 +177,7 @@ class Landing extends React.Component {
           changeScrewColor={(c) => this.changeScrewColor(c)}
           changeComponentColor={(c) => this.changeComponentColor(c)}
           changeWood={(w) => this.changeWood(w)}
+          dashCopy={this.state.dashCopy}
         />
         <Footer />
       </ReactF1>

@@ -1,7 +1,5 @@
 .scene-container {
   background-color: white;
-  width: 100%;
-  height: 100%;
 }
 
 .scene-container canvas {
@@ -11,8 +9,8 @@
 .scene-loader {
   position: absolute;
   z-index: 100;
-  background-color: rgba(0, 0, 0, 1);
-  color: rgb(256, 256, 256);
+  background-color: #f7ec30;
+  color: #8a5e3b;
 }
 
 .ringloader {
@@ -22,7 +20,7 @@
 
 .scene-loader p {
   text-align: center;
-  margin-top: 100px;
+  margin-top: 10%;
   font-size: 16pt;
   animation: glow .5s infinite alternate;
 }

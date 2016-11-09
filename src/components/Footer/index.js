@@ -26,15 +26,13 @@ class Footer extends React.Component {
 
   render() {
     const style = Object.assign({}, {}, this.props.style);
-    const className = '';
+    const className = 'footer-container';
 
     return (
       <div
         className={`${className} ${this.props.className}`}
         style={style}
-      >
-        This is Footer (React component)
-      </div>
+      / >
     )
   }
 }

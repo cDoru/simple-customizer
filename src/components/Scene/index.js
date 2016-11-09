@@ -203,7 +203,7 @@ class Scene extends React.Component {
         wheels: obj.children.filter((d) => d.name === 'WHEELS')[0].material,
         screws: obj.children.filter((d) => d.name === 'SCREWS')[0].material
       });   
-      let index = 0;
+      let index = 29;
       createLoop((dt) => {
         this.animateArc();
         this.state.controlsEnabled ? updateControls() : null;
@@ -214,7 +214,9 @@ class Scene extends React.Component {
           this.mirrorPlaneMaterial.envMap = this.mirrorPlaneCamera.renderTarget.texture;
           this.mirrorPlaneCamera.updateCubeMap(this.renderer, this.scene);
           this.road.visible = true;          
+          
         }
+        this.pivot.rotation.y += 0.001;
       
         renderer.render(this.scene, this.camera);
       }).start();  
@@ -235,7 +237,11 @@ class Scene extends React.Component {
     light.shadow.camera.far = 20;
     light.name = 'the spotlight';
     light.lookAt(new THREE.Vector3(0, 0, 0));
-    scene.add(light);    
+    let pivot =  new THREE.Object3D();
+    pivot.rotation.z = Math.PI;
+    pivot.add(light);
+    scene.add(pivot);
+    // scene.add(light);    
     let mirrorPlaneCamera = new THREE.CubeCamera(1,1000, 512);
     mirrorPlaneCamera.name = 'mirror camera';
     mirrorPlaneCamera.renderTarget.texture.minFilter = THREE.LinearMipMapLinearFilter;
@@ -264,6 +270,7 @@ class Scene extends React.Component {
     scene.add(road);
     Object.assign(this, {
       road,
+      pivot,
       mirrorPlaneCamera,
       mirrorPlaneMaterial
     });
@@ -361,7 +368,7 @@ class Scene extends React.Component {
         > 
           <Halogen
             className='ringloader'
-            color='#ffffff'
+            color='#8a5e3b'
             size={window.innerWidth / 3 + 'px'}
           />
           <p>{'Loading Please Wait'}</p>
